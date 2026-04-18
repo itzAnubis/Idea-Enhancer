@@ -1,0 +1,33 @@
+[project]
+name = "idea_enhancer"
+version = "0.1.0"
+description = "idea_enhancer using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[litellm,tools]==1.14.2",
+    "langchain-community>=0.4.1",
+    "pytest>=9.0.3",
+]
+
+[project.scripts]
+idea_enhancer = "idea_enhancer.main:run"
+run_crew = "idea_enhancer.main:run"
+train = "idea_enhancer.main:train"
+replay = "idea_enhancer.main:replay"
+test = "idea_enhancer.main:test"
+run_with_trigger = "idea_enhancer.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
+
+[dependency-groups]
+dev = [
+    "ddgs>=9.14.0",
+    "duckduckgo-search>=8.1.1",
+    "pytest>=9.0.3",
+]

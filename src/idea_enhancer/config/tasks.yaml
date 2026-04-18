@@ -1,0 +1,63 @@
+initial_idea_critique:
+  description: >
+    Analyze the project idea: {user_idea}. 
+    The CEO must consult with the CTO, CMO, and CFO to identify a preliminary SWOT.
+    If the vision is unclear, the CEO must ask 3-5 specific questions.
+    If the user provides answers, integrate them into a refined project scope.
+  expected_output: >
+    A refined project summary and a list of clarified requirements based on user feedback.
+  agent: ceo
+
+technical_and_market_validation:
+  description: >
+    You are the CEO. Delegate specific research tasks to your executive team:
+    - Delegate to CTO: Research 2026 on-device LLM/STT benchmarks for Arabic legal audio. Focus on <16GB VRAM, offline capability, and real-time latency.
+    - Delegate to CMO: Use web_search to find 3 direct competitors in MENA legal tech. Analyze their privacy policies, pricing, and market gaps.
+    - Delegate to CFO: Research SaaS pricing tiers for B2B legal AI tools. Suggest a tiered monthly model for solo practitioners vs mid-size firms.
+    Synthesize all delegated findings into a unified validation report.
+  expected_output: >
+    A structured report with: 
+    1. Technical Architecture & Model Recommendations
+    2. Competitor Comparison Table (Privacy, Pricing, Weaknesses)
+    3. Tiered Pricing Strategy & Unit Economics
+  agent: ceo
+
+final_project_blueprint:
+  description: >
+    Synthesize the technical validation, market analysis, and financial data into one 
+    Master Idea Document. Ensure the technical stack supports the marketing 
+    promises (especially privacy). The document must be professional and 
+    formatted for a potential investor pitch.
+  expected_output: >
+    A comprehensive Markdown report with sections for Vision, Tech Stack, 
+    Market Strategy, and Financial Projections.
+  agent: ceo
+
+final_project_blueprint:
+  description: >
+    Synthesize the technical validation, market analysis, and financial data into a 
+    Master Idea Document formatted for an investor pitch. Ensure strict alignment 
+    between tech capabilities and marketing claims (especially zero-cloud privacy).
+  expected_output: >
+    # Master Project Blueprint: {user_idea}
+    
+    ## 🎯 Executive Vision
+    [1-2 paragraph pitch]
+    
+    ## ⚙️ Technical Architecture
+    - Stack & Models (offline/local)
+    - Data Flow & Privacy Controls
+    - Hardware Requirements
+    
+    ## 📊 Market & Go-to-Market
+    - Target Segments
+    - Competitor Positioning
+    - Pricing Tiers
+    
+    ## 💰 Financial & Risk
+    - Development Cost Estimate
+    - Liability & Compliance Mitigation
+    - 12-Month Roadmap
+    
+    Format strictly in Markdown. No preamble.
+  agent: ceo
