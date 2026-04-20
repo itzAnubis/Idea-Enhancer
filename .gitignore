@@ -2,5 +2,5 @@
 __pycache__/
 .DS_Store
 
-*.md
 !README.md
+AGENTS.md
