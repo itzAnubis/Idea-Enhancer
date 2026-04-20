@@ -5,9 +5,11 @@ from pydantic import BaseModel, Field
 from typing import Type
 
 from idea_enhancer.tools.custom_tool import WebSearchTool
+from idea_enhancer.tools.reddit_tool import RedditSearchTool
 
 
 free_search = WebSearchTool()
+reddit_search = RedditSearchTool()
 
 
 # Define DelegationInput and DelegationTool
@@ -20,7 +22,7 @@ class DelegationTool(BaseTool):
     name: str = "delegate_work"
     description: str = "Delegate tasks to crew members: chief executive officer (ceo), chief technology officer (cto), chief financial officer (cfo), chief marketing officer (cmo)"
     args_schema: Type[BaseModel] = DelegationInput
-    
+
     def _run(self, task: str, context: str = "") -> str:
         return f"Delegation tool executed with task: {task}, context: {context}"
 
@@ -64,7 +66,7 @@ class IdeaEnhancer():
         return Agent(
             config=self.agents_config['cmo'],
             verbose=True,
-            tools=[free_search]
+            tools=[free_search, reddit_search]
         )
 
     # --- Tasks ---
@@ -93,11 +95,11 @@ class IdeaEnhancer():
     @crew
     def crew(self) -> Crew:
         return Crew(
-            agents=[self.cto(), self.cfo(), self.cmo()], 
+            agents=[self.cto(), self.cfo(), self.cmo()],
             tasks=self.tasks,
             process=Process.hierarchical,
             manager_agent=self.ceo(),
             verbose=True,
             max_rpm=10,
-            max_iter=7,            
+            max_iter=7,
         )

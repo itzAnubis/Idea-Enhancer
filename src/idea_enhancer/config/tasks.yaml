@@ -13,16 +13,19 @@ technical_and_market_validation:
     1. Researching 2026 on-device LLM/STT benchmarks for Arabic legal audio. Focus on <16GB VRAM, offline capability, and real-time latency.
     2. Using web search to find 3 direct competitors in MENA legal tech. Analyze their privacy policies, pricing, and market gaps.
     3. Researching SaaS pricing tiers for B2B legal AI tools to suggest a tiered monthly model for solo practitioners vs mid-size firms.
+    4. Use reddit_search (with sort='hot' and sort='top') to find customer discussions about similar tools, user pain points, and desired features.
+    5. Compare Reddit insights with web search results for comprehensive market understanding.
     Synthesize all findings into a unified validation report.
   expected_output: >
     A structured report with: 
     1. Technical Architecture & Model Recommendations
     2. Competitor Comparison Table (Privacy, Pricing, Weaknesses)
     3. Tiered Pricing Strategy & Unit Economics
+    4. Reddit Insights Summary (Trending Topics, User Feedback, Sentiment Analysis)
 
 final_project_blueprint:
   description: >
-    Synthesize the technical validation, market analysis, and financial data into a 
+    Synthesize the technical validation, market analysis, financial data, and Reddit insights into a 
     Master Idea Document formatted for an investor pitch. Ensure strict alignment 
     between tech capabilities and marketing claims (especially zero-cloud privacy).
   expected_output: >
@@ -40,10 +43,16 @@ final_project_blueprint:
     - Target Segments
     - Competitor Positioning
     - Pricing Tiers
+    - Reddit Community Insights (Trending Topics, User Feedback)
     
     ## 💰 Financial & Risk
     - Development Cost Estimate
     - Liability & Compliance Mitigation
     - 12-Month Roadmap
+    
+    ## 📱 Reddit Discussion Summary
+    - Hot Posts & Trending Topics
+    - Key User Concerns & Feature Requests
+    - Sentiment Analysis
     
     Format strictly in Markdown. No preamble.
