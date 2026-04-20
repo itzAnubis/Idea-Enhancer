@@ -1,19 +1,37 @@
 # src/idea_enhancer/tools/custom_tool.py
 import re
-from ddgs import DDGS  # ← Updated import (was: from duckduckgo_search import DDGS)
+import os
+from ddgs import DDGS
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
-from typing import Type
+from typing import Type, Dict
+
+# Cache configuration
+CACHE_DIR = "search_cache"
+os.makedirs(CACHE_DIR, exist_ok=True)
 
 class SearchInput(BaseModel):
     query: str = Field(..., description="Concise, keyword-focused search query.")
+    
+    @property
+    def cache_key(self) -> str:
+        """Generate a cache key based on the query."""
+        return self.query.lower().strip()
 
 class WebSearchTool(BaseTool):
     name: str = "web_search"
     description: str = "Search the internet for tech specs, legal regulations, market data, or competitor analysis."
     args_schema: Type[BaseModel] = SearchInput
-
+    
+    # Cache storage
+    _cache: Dict[str, str] = {}
+    
     def _run(self, query: str) -> str:
+        # Check cache first
+        cache_key = self.cache_key if hasattr(self, 'cache_key') else query.lower()
+        if cache_key in self._cache:
+            return self._cache[cache_key]
+            
         if not query.strip():
             return "No relevant search results found."
             
@@ -39,7 +57,14 @@ class WebSearchTool(BaseTool):
                 # Remove URLs/HTML artifacts
                 snippet = re.sub(r'http\S+|<[^>]+>', '', snippet).strip()
                 formatted.append(f"{i}. {title}\n   {snippet[:400]}...")
-            return "\n\n".join(formatted)
+            result_text = "\n\n".join(formatted)
+            
+            # Cache the result
+            self._cache[cache_key] = result_text
+            
+            return result_text
             
         except Exception as e:
-            return f"Search failed: {str(e)}"
+            error_msg = f"Search failed: {str(e)}"
+            self._cache[cache_key] = error_msg
+            return error_msg

@@ -1,9 +1,29 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai.tools import BaseTool
+from pydantic import BaseModel, Field
+from typing import Type
+
 from idea_enhancer.tools.custom_tool import WebSearchTool
 
 
 free_search = WebSearchTool()
+
+
+# Define DelegationInput and DelegationTool
+class DelegationInput(BaseModel):
+    task: str = Field(..., description="The task to delegate to a coworker")
+    context: str = Field("", description="Context for the delegation")
+
+
+class DelegationTool(BaseTool):
+    name: str = "delegate_work"
+    description: str = "Delegate tasks to crew members: chief executive officer (ceo), chief technology officer (cto), chief financial officer (cfo), chief marketing officer (cmo)"
+    args_schema: Type[BaseModel] = DelegationInput
+    
+    def _run(self, task: str, context: str = "") -> str:
+        return f"Delegation tool executed with task: {task}, context: {context}"
+
 
 @CrewBase
 class IdeaEnhancer():
@@ -19,7 +39,8 @@ class IdeaEnhancer():
         return Agent(
             config=self.agents_config['ceo'],
             verbose=True,
-            allow_delegation=True 
+            allow_delegation=True,
+            human_input=True
         )
 
     @agent
@@ -52,14 +73,14 @@ class IdeaEnhancer():
     def initial_idea_critique(self) -> Task:
         return Task(
             config=self.tasks_config['initial_idea_critique'],
-            human_input=True # This allows the CEO to ask you questions
+            human_input=True
         )
 
     @task
     def technical_and_market_validation(self) -> Task:
         return Task(
             config=self.tasks_config['technical_and_market_validation'],
-            context=[self.initial_idea_critique()] # Passes CEO notes to others
+            context=[self.initial_idea_critique()]
         )
 
     @task
@@ -72,12 +93,11 @@ class IdeaEnhancer():
     @crew
     def crew(self) -> Crew:
         return Crew(
-            agents=self.agents,  # Auto-includes all @agent methods
+            agents=[self.cto(), self.cfo(), self.cmo()], 
             tasks=self.tasks,
-            process=Process.sequential,  # Eliminates delegation routing bugs
+            process=Process.hierarchical,
+            manager_agent=self.ceo(),
             verbose=True,
-            cache=True,
-            max_rpm=10,          # Prevents OpenRouter 429s
-            max_iter=7,
-            memory=False         # Saves context window
+            max_rpm=10,
+            max_iter=7,            
         )
