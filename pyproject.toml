@@ -12,13 +12,12 @@ dependencies = [
     "pytest>=9.0.3",
     "ddgs>=9.14.0",
     "duckduckgo-search>=8.1.1",
-    "praw>=8.0.0",
+    "praw>=7.8.1",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "Intended Audience :: Business Owners",
-    "Intended Audience :: Entrepreneurs",
+    "Intended Audience :: Customer Service",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -26,7 +25,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Framework :: CrewAI",
 ]
 authors = [
     { name = "Ahmed Sherif Hamdy", email = "ahmedsherifhamdy2442004@gmail.com" }
